@@ -26,7 +26,7 @@ db.connect((err)=>{
 })
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
-app.use(session({ secret: 'key', cookie: { maxAge: 600000 } }))
+app.use(session({ secret: 'keys', cookie: { maxAge: 600000 } }))
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

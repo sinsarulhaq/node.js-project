@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 var userHelper = require('../helper/user-helpers')
 var productHelper = require('../helper/product-helper');
-const { response } = require('express');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // let user = req.session.user
   productHelper.getProduct().then((products)=>{
     res.render('user/view-products', {products});
   }) 
@@ -24,10 +24,16 @@ router.post('/signup',(req,res)=>{
 router.post('/login',(req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
+      // req.session.loggedIn= true
+      // req.session.user=response.user
       res.redirect('/')
     }else{
       res.redirect('/login')
     }
   })
+})
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/login')
 })
 module.exports = router;
