@@ -1,6 +1,7 @@
 var db = require('../config/connection')
 var collection = require('../config/collection')
 var bcrypt = require('bcrypt')
+const { ObjectId } = require('bson')
 module.exports = {
     doSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -30,6 +31,22 @@ module.exports = {
             } else {
                 console.log('unsucces')
                 resolve({ status: false })
+            }
+        })
+    },
+    addToCart:(proId,userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let user =await db.get().collection(collection.CART_COLLECTION).findOne({user:ObjectId(userId)})
+            if(user){
+
+            }else{
+                let objct = {
+                    user : ObjectId(userId),
+                    product : [ObjectId(proId)]
+                }
+                db.get().collection(collection.CART_COLLECTION).insertOne(objct).then((response)=>{
+                    resolve(response)
+                })
             }
         })
     }

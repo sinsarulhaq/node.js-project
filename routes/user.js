@@ -24,8 +24,8 @@ router.post('/signup',(req,res)=>{
 router.post('/login',(req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
-      // req.session.loggedIn= true
-      // req.session.user=response.user
+       req.session.loggedIn= true
+       req.session.user=response.user
       res.redirect('/')
     }else{
       res.redirect('/login')
@@ -35,5 +35,14 @@ router.post('/login',(req,res)=>{
 router.get('/logout',(req,res)=>{
   req.session.destroy()
   res.redirect('/login')
+})
+router.get('/cart',(req,res)=>{
+  res.render('user/cart')
+})
+router.get('/add-to-cart/:id',(req,res)=>{
+  userHelper.addToCart(req.params.id,req.body,req.session.userId).then((response)=>{
+    console.log(response)
+    res.redirect('/')
+  })
 })
 module.exports = router;
